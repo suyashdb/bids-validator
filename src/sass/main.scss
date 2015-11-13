@@ -4,9 +4,30 @@
 	padding-top: 80px;
 }
 
+.validation-error {
+	position: relative;
+	.file-header .pull-right {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+	}
+}
+
 .issues {
 	.validation-messages {
 		padding-top: 20px;
+	}
+
+	.issue {
+		border-bottom: 1px solid #CCC;
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+		.pull-right {
+			font-size: 14px;
+		}
 	}
 }
 

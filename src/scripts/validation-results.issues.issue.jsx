@@ -21,9 +21,14 @@ export default class Issue extends React.Component {
 		if (errLocation == '' && error.evidence) {errLocation  = 'Evidence: ';}
 
 		return (
-			<div className="em-body">
-				<h4 className="em-header">{this.props.type}: {index + 1}</h4>
+			<div className="em-body issue">
+				<h4 className="em-header clearfix">
+					<strong className="em-header pull-left">{error.file.name}</strong>
+					<strong className="em-header pull-right">{error.file.size / 1000} KB | {error.file.type}</strong>
+				</h4>
 				<span className="e-meta">
+					<label>Location: </label>
+					<p>{error.file.webkitRelativePath}</p>
 					<label>Reason: </label>
 					<p>{error.reason}</p>
 				</span>

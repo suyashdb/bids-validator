@@ -22,7 +22,7 @@
 // project config ---------------------------------------------------------
 
     var p = {
-        html:           './src/index.html',
+        html:           './index.html',
         jsx:            './src/scripts/index.jsx',
         scss:           './src/sass/**/*.scss',
         scssmain:       './src/sass/main.scss',
@@ -61,7 +61,7 @@
     // server and sync changes
     gulp.task('browserSync', function() {
         browserSync.init({
-            server: './dist',
+            server: './',
             port: 9876
         });
     });

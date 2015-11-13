@@ -8,7 +8,7 @@
   },
   "author": "Squishymedia",
   "dependencies": {
-    "bids-validator": "0.10.4",
+    "bids-validator": "0.11.1",
     "bowser": "^1.0.0",
     "pluralize": "^1.1.2",
     "react": "^0.13.0",

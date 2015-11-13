@@ -28,9 +28,9 @@ let Issues = React.createClass({
     	let totalWarnings = 0;
     	let warningCount,
     		errorCount;
-    	if (errors !== 'Invalid') {
-			for (let error   of errors)   {totalErrors    += error.errors.length;}
-	        for (let warning of warnings) {totalWarnings  += warning.errors.length;}
+	    if (errors !== 'Invalid') {
+			totalErrors   = errors.length;
+	        totalWarnings = warnings.length;
 			warningCount = totalWarnings + ' ' + pluralize('Warning', totalWarnings);
 			errorCount   = totalErrors   + ' ' + pluralize('Error', totalErrors);
 		}

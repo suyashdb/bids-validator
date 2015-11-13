@@ -4906,8 +4906,21 @@ button.close {
 .page-wrapper {
   padding-top: 80px; }
 
+.validation-error {
+  position: relative; }
+  .validation-error .file-header .pull-right {
+    position: absolute;
+    top: 15px;
+    right: 15px; }
+
 .issues .validation-messages {
   padding-top: 20px; }
+.issues .issue {
+  border-bottom: 1px solid #CCC; }
+  .issues .issue:last-child {
+    border-bottom: none; }
+  .issues .issue .pull-right {
+    font-size: 14px; }
 
 .warning-wrap > .panel-heading {
   background: #fcf8e3;
