@@ -1,0 +1,8 @@
+deployment:
+  staging:
+    branch: gh-pages
+    commands:
+      - git config --global user.email circleci@circleci
+      - git config --global user.name CircleCI
+      - gulp build
+      - git status
