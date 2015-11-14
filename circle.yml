@@ -7,4 +7,4 @@ deployment:
       - gulp build
       - git status
       - git commit dist/ -m "Circle CI - validator demo update"
-      - git push
+      - git push origin gh-pages
