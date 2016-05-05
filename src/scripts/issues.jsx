@@ -8,6 +8,7 @@ import UploadStore from './store.js';
 import Results     from './validation-results.jsx';
 import Spinner     from './spinner.jsx';
 import ErrorLink   from './error-link.jsx';
+import Summary     from './summary.jsx';
 
 let Issues = React.createClass({
 
@@ -36,12 +37,12 @@ let Issues = React.createClass({
 		}
 		let uploadResetLink = <span className="upload-reset-link" onClick={this._reset}>select your folder again</span>
 		// messages
-		let specLink        = <h4>Click to view details on <a href="http://bids.neuroimaging.io" target="_blank">BIDS specification</a></h4>;
-		let notBIDSMessage  = <h3>This does not appear to be a BIDS dataset. <span onClick={this._reset}>Select a new folder</span> and try again.</h3>;
-		let warningsMessage = <h3>We found {warningCount} in your dataset. Proceed with this dataset by clicking continue or fix the issues and {uploadResetLink}.</h3>;
-		let errorMessage    = <h3>Your dataset is not a valid BIDS dataset. Fix the <strong>{errorCount}</strong> and {uploadResetLink}.</h3>;
-		let noErrorMessage  = <h3>This is a valid BIDS dataset!</h3>;
-		let resumeMessage   = <h3>You have already uploaded a dataset with this name. Click continue if you are trying to resume an unfinished upload.</h3>;
+		let specLink        = <h5>Click to view details on <a href="http://bids.neuroimaging.io" target="_blank">BIDS specification</a></h5>;
+		let notBIDSMessage  = <h4>This does not appear to be a BIDS dataset. <span onClick={this._reset}>Select a new folder</span> and try again.</h4>;
+		let warningsMessage = <h4>We found {warningCount} in your dataset. Proceed with this dataset by clicking continue or fix the issues and {uploadResetLink}.</h4>;
+		let errorMessage    = <h4>Your dataset is not a valid BIDS dataset. Fix the <strong>{errorCount}</strong> and {uploadResetLink}.</h4>;
+		let noErrorMessage  = <h4>This is a valid BIDS dataset!</h4>;
+		let resumeMessage   = <h4>You have already uploaded a dataset with this name. Click continue if you are trying to resume an unfinished upload.</h4>;
 
 		// determine message
 		let message;
@@ -62,6 +63,7 @@ let Issues = React.createClass({
 		let results = (
 			<div className="well issues">
 				<button type="button" className="close" aria-label="Close" onClick={this._reset}><span aria-hidden="true">&times;</span></button>
+				<Summary />
 				{message}
 				{errors !== 'Invalid' ? <Results errors={errors} warnings={warnings} /> : null}
 				{errors.length > 0 && errors !== 'Invalid' || warnings.length > 0 ? <ErrorLink dirName={dirName} errors={errors} warnings={warnings} /> : null}

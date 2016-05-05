@@ -45,6 +45,7 @@ let UploadStore = Reflux.createStore({
 			refs: {},
 			errors: [],
 			warnings: [],
+			summary: null,
 			status: ''
 		};
 		for (let prop in diffs) {data[prop] = diffs[prop];}
@@ -72,7 +73,7 @@ let UploadStore = Reflux.createStore({
 	validate (selectedFiles, resuming) {
 		let self = this;
 		self.update({status: 'validating', showIssues: true, activeKey: 3});
-        validate.BIDS(selectedFiles, {}, function (errors, warnings) {
+        validate.BIDS(selectedFiles, {}, function (errors, warnings, summary) {
 
         	if (errors === 'Invalid') {
         		self.update({errors: 'Invalid'});
@@ -84,6 +85,7 @@ let UploadStore = Reflux.createStore({
 			self.update({
 				errors: errors,
 				warnings: warnings,
+				summary: summary,
 				status: 'validated'
 			});
         });
