@@ -39,10 +39,9 @@ let Issues = React.createClass({
 		// messages
 		let specLink        = <h5>Click to view details on <a href="http://bids.neuroimaging.io" target="_blank">BIDS specification</a></h5>;
 		let notBIDSMessage  = <h4>This does not appear to be a BIDS dataset. <span onClick={this._reset}>Select a new folder</span> and try again.</h4>;
-		let warningsMessage = <h4>We found {warningCount} in your dataset. Proceed with this dataset by clicking continue or fix the issues and {uploadResetLink}.</h4>;
-		let errorMessage    = <h4>Your dataset is not a valid BIDS dataset. Fix the <strong>{errorCount}</strong> and {uploadResetLink}.</h4>;
+		let warningsMessage = <h4>We found {warningCount} in your dataset.</h4>;
+		let errorMessage    = <h4>Your dataset is not a valid BIDS dataset.</h4>;
 		let noErrorMessage  = <h4>This is a valid BIDS dataset!</h4>;
-		let resumeMessage   = <h4>You have already uploaded a dataset with this name. Click continue if you are trying to resume an unfinished upload.</h4>;
 
 		// determine message
 		let message;
