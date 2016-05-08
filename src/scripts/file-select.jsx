@@ -14,7 +14,8 @@ class Upload extends React.Component {
 
 	render () {
 		return (
-			<input type="file"  className="dirUpload-btn" onClick={this._click.bind(this)} onChange={this._onFileSelect.bind(this)} ref="fileSelect"/>
+			<input type="file"  className="dirUpload-btn" onClick={this._click.bind(this)}
+				   onChange={this._onFileSelect.bind(this)} ref="fileSelect" value="Choose a folder"/>
     	);
 	}
 
