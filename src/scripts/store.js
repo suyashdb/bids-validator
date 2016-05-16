@@ -73,7 +73,7 @@ let UploadStore = Reflux.createStore({
 	validate (selectedFiles, resuming) {
 		let self = this;
 		self.update({status: 'validating', showIssues: true, activeKey: 3});
-        validate.BIDS(selectedFiles, {}, function (errors, warnings, summary) {
+        validate.BIDS(selectedFiles, {verbose: true}, function (errors, warnings, summary) {
 
         	if (errors === 'Invalid') {
         		self.update({errors: 'Invalid'});
@@ -90,7 +90,6 @@ let UploadStore = Reflux.createStore({
 			});
         });
 	},
-
 
 	/**
 	 * Set Refs
