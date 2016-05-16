@@ -29,6 +29,22 @@
 			font-size: 14px;
 		}
 	}
+
+	.issues-view-more {
+		padding-top: 15px;
+
+		button {
+			border: none;
+			background: none;
+			color: #337ab7;
+			font-size: 18px;
+
+			&:hover {
+				text-decoration: underline;
+				color: #23527c;
+			}
+		}
+	}
 }
 
 .warning-wrap > .panel-heading {
