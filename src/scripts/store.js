@@ -3,7 +3,7 @@
 import React    from 'react';
 import Reflux   from 'reflux';
 import Actions  from './actions.js';
-import validate from 'bids-validator';
+import validate from '../../../validator';
 
 // store setup -----------------------------------------------------------------------
 

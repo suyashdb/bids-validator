@@ -43,35 +43,52 @@ class Issues extends React.Component {
 			}
 
 			// issue sub-errors
+			let hasErrorFiles = false;
 			let subErrors = files.map(function (error, index2) {
-				return error ? <Issue type={self.props.issueType} file={issue.file} error={error} index={index2} key={index2} /> : null;
+				if (error && error.file) {
+					hasErrorFiles = true
+					return <Issue type={self.props.issueType} error={error} index={index2} key={index2} />;
+				}
 			});
 
-
 			// issue panel
-			return (
-				<Panel key={index} header={this._header(issue, index, this.props.issueType)} className="validation-error fadeIn" eventKey={index}>
-					{subErrors}
-					{this._viewMore(issue.files, index)}
-				</Panel>
-			);
+			if (hasErrorFiles) {
+				return (
+					<Panel key={index} header={this._header(issue, index, this.props.issueType, hasErrorFiles)} className="validation-error fadeIn" eventKey={index}>
+						{subErrors}
+						{this._viewMore(issue.files, index)}
+					</Panel>
+				);
+			} else {
+				return (
+					<div className="panel panel-default" key={index}>
+						<div className="panel-heading">{this._header(issue, index, this.props.issueType, hasErrorFiles)}</div>
+					</div>
+				);
+			}
 		});
 		return <Accordion>{issues}</Accordion>;
 	}
 
 // template methods -------------------------------------------------------
 
-	_header(issue, index, type) {
+	_header(issue, index, type, hasErrorFiles) {
 		let issueCount = pluralize('files', issue.files.length);
+		let fileCount;
+		if (hasErrorFiles) {
+			fileCount = (
+				<span className="pull-right">
+					 {issue.files.length} {issueCount}
+				</span>
+			);
+		}
 		return (
-			<span className="file-header">
+			<span className="panel-title file-header">
 				<h4 className="em-header clearfix">
 					<strong className="em-header pull-left">{type}: {index + 1}</strong>
 				</h4>
 				{issue.reason}
-				<span className="pull-right">
-					 {issue.files.length} {issueCount}
-				</span>
+				{fileCount}
 			</span>
 		);
 	}
