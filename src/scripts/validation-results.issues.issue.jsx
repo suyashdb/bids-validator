@@ -10,7 +10,6 @@ export default class Issue extends React.Component {
 
 	render () {
 		let self = this;
-		let file  = this.props.file;
 		let error = this.props.error;
 		let index = this.props.index;
 
