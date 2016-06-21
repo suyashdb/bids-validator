@@ -17,6 +17,8 @@ let Select = React.createClass({
 			<div>
 				<h3>Select a  <a href="http://bids.neuroimaging.io" target="_blank">BIDS dataset</a> to validate</h3>
 				<FileSelect onClick={this._clearInput} onChange={this._onChange} setRefs={this._setRefs}/>
+				<hr />
+				<small>Note: Selecting a dataset only performs validation. Files are never uploaded.</small>
 			</div>
 		);
 
