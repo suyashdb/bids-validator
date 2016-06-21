@@ -16,7 +16,6 @@ let App = React.createClass({
 // life cycle events ---------------------------------------------------------
 
 	render () {
-
 		let errors   = this.state.errors;
 		let warnings = this.state.warnings;
 
@@ -39,8 +38,8 @@ let App = React.createClass({
 					</div>
 				</nav>
 				<div className="container page-wrapper">
-					{!bowser.chrome ? browserWarning : null}
-					{bowser.chrome  ? <Validate loading={this.state.status === 'validating'}/> : null}
+					{!bowser.chrome && !bowser.chromium ? browserWarning : null}
+					{bowser.chrome || bowser.chromium ? <Validate loading={this.state.status === 'validating'}/> : null}
 					{this.state.status === 'validated' ? <Issues /> : null}
 				</div>
 			</div>
