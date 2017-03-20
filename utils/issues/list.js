@@ -289,7 +289,7 @@ module.exports = {
     },
     58: {
         key: 'ses-id in filename doesnt match directory',
-        severity: 'warning',
+        severity: 'error',
         reason: 'ses-id in the filename doesnt match with the path of the file. File seems to be saved in incorrect session directory.'
     }
 };
