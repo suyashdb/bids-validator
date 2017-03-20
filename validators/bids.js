@@ -135,7 +135,7 @@ var BIDS = {
                     file: file
                 }));
               }
-              
+
               if (fileValues.ses !== pathValues.ses){
                 self.issues.push(new Issue({
                     code: 58,
@@ -282,7 +282,6 @@ var BIDS = {
             if (!utils.type.isAssociatedData(file.relativePath) && utils.type.isBIDS(file.relativePath)) {
                 var values = utils.type.getPathValues(file.relativePath);
                 var pathValues = values[0]
-                var fileValues = values[1]
 
                 if (pathValues.sub && summary.subjects.indexOf(pathValues.sub) === -1) {
                     summary.subjects.push(pathValues.sub);
