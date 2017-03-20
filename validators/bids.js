@@ -123,8 +123,8 @@ var BIDS = {
             // checks if sub/ses-id in filename matches with ses/sub directory file is saved
 
             var values = utils.type.getPathValues(file.relativePath);
-            var pathValues = values[0]
-            var fileValues = values[1]
+            var pathValues = values[0];
+            var fileValues = values[1];
 
             if (fileValues.sub !== null || fileValues.ses !== null){
               // console.log(fileValues.sub, pathValues.sub, file.name)
@@ -280,8 +280,8 @@ var BIDS = {
 
             // collect sessions & subjects
             if (!utils.type.isAssociatedData(file.relativePath) && utils.type.isBIDS(file.relativePath)) {
-                var values = utils.type.getPathValues(file.relativePath);
-                var pathValues = values[0]
+                // var values = utils.type.getPathValues(file.relativePath);
+                // var pathValues = values[0];
 
                 if (pathValues.sub && summary.subjects.indexOf(pathValues.sub) === -1) {
                     summary.subjects.push(pathValues.sub);
