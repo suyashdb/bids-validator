@@ -245,7 +245,7 @@ describe('utils.type.getPathValues', function () {
 });
 
 describe('validators.bids.fullTest', function () {
-  issues = [code:57,code:58]
+  issues = [{code:57},{code:58}]
   code57_seen = false;
   code58_seen = false;
     it('should return the correct path values from a valid file path', function () {
