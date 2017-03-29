@@ -227,7 +227,9 @@ module.exports = {
         unmat = (/^sub-[a-zA-Z0-9]+_ses-([a-zA-Z0-9]+)/).exec(filename);
         file_name.ses = unmat && unmat[1] ? unmat[1] : null;
 
-        return [values, file_name];
+
+
+        return [values,file_name];
     }
 
 };

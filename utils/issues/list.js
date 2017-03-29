@@ -285,11 +285,11 @@ module.exports = {
     57: {
         key: 'sub-id in filename doesnt match directory',
         severity: 'warning',
-        reason: 'sub-id in the filename doesnt match with the path of the file. File seems to be saved in incorrect subject directory.'
+        reason: 'sub-id in the filename doesn\'t match with the path of the file. File seems to be saved in incorrect subject directory.'
     },
     58: {
         key: 'ses-id in filename doesnt match directory',
         severity: 'error',
-        reason: 'ses-id in the filename doesnt match with the path of the file. File seems to be saved in incorrect session directory.'
+        reason: 'ses-id in the filename doesn\'t match with the path of the file. File seems to be saved in incorrect session directory.'
     }
 };
