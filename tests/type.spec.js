@@ -245,12 +245,23 @@ describe('utils.type.getPathValues', function () {
 });
 
 describe('validators.bids.fullTest', function () {
+  issues = [code:57,code:58]
+  code57_seen = false;
+  code58_seen = false;
     it('should return the correct path values from a valid file path', function () {
       files = ['/sub-22/ses-1/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
     '/sub-22/ses-1/func/sub-23_ses-1_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-22/ses-1/func/sub-22_ses-2_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz'];
     callback = function(issues, summary){
-    assert(code 57);
-    assert(code 58)};
+      for i in issues:
+        if (i['code']===57){
+          code57_seen = true;
+          }
+        else if (i['code']===58) {
+          code58_seen = false;
+        }
+      assert(code57_seen);
+      assert(code58_seen);
+    }
     validators.bids.fullTest(files, callback);
     });
 });
