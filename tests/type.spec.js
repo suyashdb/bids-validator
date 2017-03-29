@@ -249,8 +249,8 @@ describe('validators.bids.fullTest', function () {
       files = ['/sub-22/ses-1/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
     '/sub-22/ses-1/func/sub-23_ses-1_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-22/ses-1/func/sub-22_ses-2_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz'];
     callback = function(issues, summary){
-    assert(code: 57);
-    assert(code: 58)};
+    assert(code 57);
+    assert(code 58)};
     validators.bids.fullTest(files, callback);
     });
 });

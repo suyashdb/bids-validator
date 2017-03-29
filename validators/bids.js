@@ -123,7 +123,6 @@ var BIDS = {
 
             // checks if sub/ses-id in filename matches with ses/sub directory file is saved
 
-            var values = utils.type.getPathValues(file.relativePath);
             var pathValues = values[0];
             var fileValues = values[1];
 
@@ -280,7 +279,6 @@ var BIDS = {
 
             // collect sessions & subjects
             if (!utils.type.isAssociatedData(file.relativePath) && utils.type.isBIDS(file.relativePath)) {
-              var pathValues = utils.type.getPathValues(file.relativePath);
 
                 if (pathValues.sub && summary.subjects.indexOf(pathValues.sub) === -1) {
                     summary.subjects.push(pathValues.sub);
