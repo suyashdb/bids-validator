@@ -79,7 +79,7 @@ module.exports = function NIFTI (header, file, jsonContentsDict, bContentsDict, 
     if (!mergedDictionary.invalid) {
 
         // task scan checks
-        if (path.includes('_task-') && !path.includes('_defacemask.nii') && !path.includes('_sbref.nii')) {
+        if (path.includes('_task-') && !path.includes('_defacemask.nii') && !path.includes('_sbref.nii') && !path.includes('_rec-')) {
             if (!mergedDictionary.hasOwnProperty('TaskName')) {
                 issues.push(new Issue({
                     file: file,
@@ -90,7 +90,7 @@ module.exports = function NIFTI (header, file, jsonContentsDict, bContentsDict, 
         }
 
         // field map checks
-        if (path.includes("_bold.nii") || path.includes("_sbref.nii") || path.includes("_dwi.nii")) {
+        if ((path.includes("_bold.nii") || path.includes("_sbref.nii") || path.includes("_dwi.nii")) && !path.includes('_rec-')) {
             if (!mergedDictionary.hasOwnProperty('EchoTime')) {
                 issues.push(new Issue({
                     file: file,
@@ -124,7 +124,7 @@ module.exports = function NIFTI (header, file, jsonContentsDict, bContentsDict, 
         }
 
         // we don't need slice timing or repetition time for SBref
-        if (path.includes("_bold.nii")) {
+        if (path.includes("_bold.nii") && !path.includes('_rec-')) {
             if (!mergedDictionary.hasOwnProperty('RepetitionTime')) {
                 issues.push(new Issue({
                     file: file,
