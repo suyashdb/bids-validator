@@ -298,6 +298,11 @@ function potentialLocations(path) {
                 }
             }
         }
+        /*
+          // this filter will remove rec key value pair from potentialPaths. Thus,
+          for reconstructed(with rec- k:v) task runs validator wont ask for json
+          file and event.tsv file.
+        */
         if (filenameComponent.substring(0, 3) === "rec"){
           rec = filenameComponent
           var rec_path = path.replace((rec + '_'), '');
@@ -309,32 +314,14 @@ function potentialLocations(path) {
     if (ses) {
         var sessionLevelPath= "/" + sub + "/" + ses + "/" + sessionLevelComponentList.join("_");
         potentialPaths.push(sessionLevelPath);
-
-        var rec_index = subjectLevelComponentList.indexOf(rec);
-        subjectLevelComponentList.splice(rec_index);
-
-        if (rec){
-        var rec_path = "/" + sub + "/" + ses + "/" + sessionLevelComponentList.join("_");
-        potentialPaths.push(rec_path);
-        };
-
-    }
+    };
 
     var subjectLevelPath = "/" + sub + "/" + subjectLevelComponentList.join("_");
-
-    if (rec){
-    var rec_index = subjectLevelComponentList.indexOf(rec);
-    subjectLevelComponentList.splice(rec_index,1);
-    var rec_path = "/" + sub + "/" + subjectLevelComponentList.join("_");
-    potentialPaths.push(rec_path);
-    console.log(potentialPaths)
-    };
-    
     potentialPaths.push(subjectLevelPath);
     var topLevelPath = "/" + topLevelComponentList.join("_");
     potentialPaths.push(topLevelPath);
     potentialPaths.reverse();
-    console.log('potentialPaths - ' + potentialPaths)
+
     return potentialPaths;
 }
 
