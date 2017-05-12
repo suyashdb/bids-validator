@@ -98,9 +98,7 @@ describe('NIFTI', function(){
             '/sub-15/run-01_events.tsv'
         ];
         jsonContentsDict[file.relativePath.replace('.nii.gz', '.json')] = jsonContentsDict['/sub-15/func/sub-15_task-mixedeventrelatedproberest_run-01_bold.json'];
-        console.log(events);
         validate.NIFTI(null, file, jsonContentsDict, {}, [], events, function (issues) {
-          console.log(issues);
             assert.deepEqual(issues, []);
         });
     });

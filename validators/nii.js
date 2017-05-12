@@ -271,17 +271,14 @@ function missingEvents(path, potentialEvents, events) {
  */
 function potentialLocations(path) {
     var potentialPaths = [path];
-    // console.log('1. POtential Paths ' + potentialPaths);
     var pathComponents = path.split('/');
-    // console.log('path_Components- '+ pathComponents);
     var filenameComponents = pathComponents[pathComponents.length - 1].split("_");
-    // console.log('filename_componenets - '+ filenameComponents)
     var sessionLevelComponentList = [],
         subjectLevelComponentList = [],
         topLevelComponentList = [],
         ses = null,
         sub = null;
-        rec = null;
+    var rec = null;
 
     filenameComponents.forEach(function (filenameComponent) {
         if (filenameComponent.substring(0, 3) != "run") {
@@ -304,17 +301,17 @@ function potentialLocations(path) {
           file and event.tsv file.
         */
         if (filenameComponent.substring(0, 3) === "rec"){
-          rec = filenameComponent
+          rec = filenameComponent;
           var rec_path = path.replace((rec + '_'), '');
-          potentialPaths.push(rec_path)
-        };
+          potentialPaths.push(rec_path);
+        }
     });
 
 
     if (ses) {
         var sessionLevelPath= "/" + sub + "/" + ses + "/" + sessionLevelComponentList.join("_");
         potentialPaths.push(sessionLevelPath);
-    };
+    }
 
     var subjectLevelPath = "/" + sub + "/" + subjectLevelComponentList.join("_");
     potentialPaths.push(subjectLevelPath);
