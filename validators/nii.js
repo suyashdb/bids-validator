@@ -15,6 +15,7 @@ module.exports = function NIFTI (header, file, jsonContentsDict, bContentsDict, 
     var issues = [];
     var potentialSidecars = potentialLocations(path.replace(".gz", "").replace(".nii", ".json"));
     var potentialEvents   = potentialLocations(path.replace(".gz", "").replace("bold.nii", "events.tsv"));
+    // console.log('potential Events - ' + potentialEvents);
     var mergedDictionary  = generateMergedSidecarDict(potentialSidecars, jsonContentsDict);
     var sidecarMessage    = "It can be included one of the following locations: " + potentialSidecars.join(", ");
     var eventsMessage     = "It can be included one of the following locations: " + potentialEvents.join(", ");
@@ -270,14 +271,17 @@ function missingEvents(path, potentialEvents, events) {
  */
 function potentialLocations(path) {
     var potentialPaths = [path];
+    // console.log('1. POtential Paths ' + potentialPaths);
     var pathComponents = path.split('/');
+    // console.log('path_Components- '+ pathComponents);
     var filenameComponents = pathComponents[pathComponents.length - 1].split("_");
-
+    // console.log('filename_componenets - '+ filenameComponents)
     var sessionLevelComponentList = [],
         subjectLevelComponentList = [],
         topLevelComponentList = [],
         ses = null,
         sub = null;
+        rec = null;
 
     filenameComponents.forEach(function (filenameComponent) {
         if (filenameComponent.substring(0, 3) != "run") {
@@ -294,21 +298,49 @@ function potentialLocations(path) {
                 }
             }
         }
+        if (filenameComponent.substring(0, 3) === "rec"){
+          rec = filenameComponent
+          console.log("subjectLevelComponentList " + subjectLevelComponentList);
+          console.log("sessionLevelComponentList " + sessionLevelComponentList);
+          var rec_path = path.replace((rec + '_'), '');
+          potentialPaths.push(rec_path)
+        };
     });
+
 
     if (ses) {
         var sessionLevelPath= "/" + sub + "/" + ses + "/" + sessionLevelComponentList.join("_");
         potentialPaths.push(sessionLevelPath);
+
+        var rec_index = subjectLevelComponentList.indexOf(rec);
+        subjectLevelComponentList.splice(rec_index);
+
+        // if (rec){
+        // var rec_path = "/" + sub + "/" + ses + "/" + sessionLevelComponentList.join("_");
+        // potentialPaths.push(rec_path);
+        // };
+
     }
 
     var subjectLevelPath = "/" + sub + "/" + subjectLevelComponentList.join("_");
+
+    // if (rec){
+    // var rec_index = subjectLevelComponentList.indexOf(rec);
+    // subjectLevelComponentList.splice(rec_index,1);
+    // var rec_path = "/" + sub + "/" + subjectLevelComponentList.join("_");
+    // potentialPaths.push(rec_path);
+    // console.log(potentialPaths)
+    // };
+    // console.log('Second topLevelComponentList - ' + topLevelComponentList);
     potentialPaths.push(subjectLevelPath);
+    // console.log('3. POtential Paths ' + potentialPaths);
 
     var topLevelPath = "/" + topLevelComponentList.join("_");
     potentialPaths.push(topLevelPath);
+    // console.log('4. POtential Paths ' + potentialPaths);
 
     potentialPaths.reverse();
-
+    console.log('potentialPaths - ' + potentialPaths)
     return potentialPaths;
 }
 
