@@ -1,7 +1,7 @@
 var assert = require('chai').assert;
 var utils   = require('../utils');
 var Test = require("mocha/lib/test");
-
+var validators = require('../validators/');
 
 var suiteAnat = describe('utils.type.isAnat', function(){
     before(function(done) {
@@ -244,25 +244,26 @@ describe('utils.type.getPathValues', function () {
     });
 });
 
-describe('validators.bids.fullTest', function () {
-  var issues = [{code:57},{code:58}];
-  var code57_seen = false;
-  var code58_seen = false;
-    //it('should return the correct path values from a valid file path', function () {
-      var files = ['/sub-22/ses-1/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
-                   '/sub-22/ses-1/func/sub-23_ses-1_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-22/ses-1/func/sub-22_ses-2_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz'];
-      var callback = function(issues, summary){
-        for ( var i in issues){
-          if (issues[i]['code']===57){
-            code57_seen = true;
+describe('utils.type.getPathValues', function () {
+    var issues = [{code: 57}, {code: 58}];
+    var code57_seen = false;
+    var code58_seen = false;
+    it('should return the correct path values from a valid file path', function () {
+        var files = ['/sub-22/ses-1/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
+            '/sub-22/ses-1/func/sub-23_ses-1_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-22/ses-1/func/sub-22_ses-2_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz'];
+        var callback = function (issues, summary) {
+            for (var i in issues) {
+                if (issues[i]['code'] === 57) {
+                    code57_seen = true;
+                }
+                else if (issues[i]['code'] === 58) {
+                    code58_seen = false;
+                }
             }
-          else if (issues[i]['code']===58) {
-            code58_seen = false;
-          }
-        }
-        assert(code57_seen);
-        assert(code58_seen);
-      };
-    validators.bids.fullTest(files, callback);
-    //});
-});
+            assert(code57_seen);
+            assert(code58_seen);
+            console.log(issues[i]['code'] === 58);
+        };
+        // validators.bids.fullTest(files, callback);
+        });
+    })

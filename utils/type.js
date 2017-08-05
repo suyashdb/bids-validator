@@ -28,7 +28,8 @@ module.exports = {
             this.isBehavioral(path)     ||
             this.isCont(path)           ||
             this.isFieldMap(path)       ||
-            this.isPhenotypic(path)
+            this.isPhenotypic(path)     ||
+            this.getPathValues(path)
         );
     },
 
