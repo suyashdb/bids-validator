@@ -1,7 +1,7 @@
 var assert = require('chai').assert;
 var utils   = require('../utils');
 var Test = require("mocha/lib/test");
-var validators = require('../validators/');
+var validatorss = require('../validators');
 
 var suiteAnat = describe('utils.type.isAnat', function(){
     before(function(done) {
@@ -245,7 +245,7 @@ describe('utils.type.getPathValues', function () {
 });
 
 describe('utils.type.getPathValues', function () {
-    var issues = [{code: 57}, {code: 58}];
+    // var issues = [{code: 57}, {code: 58}];
     var code57_seen = false;
     var code58_seen = false;
     it('should return the correct path values from a valid file path', function () {
@@ -264,6 +264,7 @@ describe('utils.type.getPathValues', function () {
             assert(code58_seen);
             console.log(issues[i]['code'] === 58);
         };
-        // validators.bids.fullTest(files, callback);
+        console.log(validatorss.BIDS.fullTest(files, callback));
+        validatorss.BIDS.fullTest(files, callback);
         });
     })
