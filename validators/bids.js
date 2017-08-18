@@ -96,6 +96,7 @@ var BIDS = {
      */
     fullTest: function (fileList, callback) {
         var self = this;
+        // console.log(typeof(fileList));
 
         var jsonContentsDict      = {},
             bContentsDict         = {},
@@ -137,7 +138,7 @@ var BIDS = {
               }
 
               if (fileValues.ses !== pathValues.ses){
-                self.issues.push(new Issue({
+                issues.push(new Issue({
                     code: 58,
                     evidence: "File: " + file.relativePath + " is saved in incorrect session directory as per ses-id in filename.",
                     file: file

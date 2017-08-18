@@ -245,13 +245,31 @@ describe('utils.type.getPathValues', function () {
 });
 
 describe('utils.type.getPathValues', function () {
-    // var issues = [{code: 57}, {code: 58}];
+    var issues = [{code: 57}, {code: 58}];
     var code57_seen = false;
     var code58_seen = false;
-    it('should return the correct path values from a valid file path', function () {
-        var files = ['/sub-22/ses-1/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
-            '/sub-22/ses-1/func/sub-23_ses-1_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-22/ses-1/func/sub-22_ses-2_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz'];
-        var callback = function (issues, summary) {
+    it('should return if sub and ses doesnt match', function () {
+
+        var files = { '0':
+           { name: 'sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
+             path: 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
+             relativePath: 'ds001/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz' },
+          '1':
+           { name: '/sub-22/ses-1/func/sub-23_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
+             path: 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001//sub-22/ses-1/func/sub-23_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
+             relativePath: 'ds001/sub-22/ses-1/func/sub-23_ses-1_task-rest_acq-prefrontal_physio.tsv.gz' },
+          '2':
+           { name: '/sub-22/ses-1/func/sub-22_ses-2_task-rest_acq-prefrontal_physio.tsv.gz',
+             path: 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001//sub-22/ses-1/func/sub-22_ses-2_task-rest_acq-prefrontal_physio.tsv.gz',
+             relativePath: '/sub-22/ses-1/func/sub-22_ses-2_task-rest_acq-prefrontal_physio.tsv.gz' },
+          '3':
+           { name: '/sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
+             path: 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001//sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
+             relativePath: 'ds001//sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz' }},
+
+        // var files = ['/sub-22/ses-1/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
+        // '/sub-22/ses-1/func/sub-23_ses-1_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-22/ses-1/func/sub-22_ses-2_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz'];
+        callback = function (issues, summary) {
             for (var i in issues) {
                 if (issues[i]['code'] === 57) {
                     code57_seen = true;
@@ -264,7 +282,10 @@ describe('utils.type.getPathValues', function () {
             assert(code58_seen);
             console.log(issues[i]['code'] === 58);
         };
-        console.log(validatorss.BIDS.fullTest(files, callback));
-        validatorss.BIDS.fullTest(files, callback);
+        // assert(validatorss.bids.fullTest(files, callback));
+        var dir = 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001/';
+        // console.log(utils.files.readDir(dir),callback);
+        validatorss.BIDSS(files, callback({config: issues}));
+        console.log(issues);
         });
-    })
+    });
