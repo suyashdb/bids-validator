@@ -116,6 +116,7 @@ var BIDS = {
             totalFiles: Object.keys(fileList).length,
             size: 0
         };
+        console.log(typeof(self.issues), 'outside loop');
 
         // validate individual files
         async.eachOfLimit(fileList, 200, function (file, key, cb) {
@@ -127,6 +128,7 @@ var BIDS = {
 
             var pathValues = values[0];
             var fileValues = values[1];
+            console.log(typeof(self.issues.push), 'inside loop');
 
             if (fileValues.sub !== null || fileValues.ses !== null){
               if (fileValues.sub !== pathValues.sub){
@@ -138,7 +140,7 @@ var BIDS = {
               }
 
               if (fileValues.ses !== pathValues.ses){
-                issues.push(new Issue({
+                self.issues.push(new Issue({
                     code: 58,
                     evidence: "File: " + file.relativePath + " is saved in incorrect session directory as per ses-id in filename.",
                     file: file

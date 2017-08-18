@@ -2,6 +2,7 @@ var assert = require('chai').assert;
 var utils   = require('../utils');
 var Test = require("mocha/lib/test");
 var validatorss = require('../validators');
+var Issue  = utils.issues.Issue;
 
 var suiteAnat = describe('utils.type.isAnat', function(){
     before(function(done) {
@@ -284,8 +285,8 @@ describe('utils.type.getPathValues', function () {
         };
         // assert(validatorss.bids.fullTest(files, callback));
         var dir = 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001/';
-        // console.log(utils.files.readDir(dir),callback);
-        validatorss.BIDSS(files, callback({config: issues}));
+        // console.log(utils.files.readDir(dir),callback);({config: issues});
+        validatorss.BIDSS(files, callback);
         console.log(issues);
         });
     });
