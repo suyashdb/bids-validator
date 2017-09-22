@@ -96,7 +96,6 @@ var BIDS = {
      */
     fullTest: function (fileList, callback) {
         var self = this;
-        // console.log(typeof(fileList));
 
         var jsonContentsDict      = {},
             bContentsDict         = {},
@@ -116,7 +115,6 @@ var BIDS = {
             totalFiles: Object.keys(fileList).length,
             size: 0
         };
-        console.log(typeof(self.issues), 'outside loop');
 
         // validate individual files
         async.eachOfLimit(fileList, 200, function (file, key, cb) {
@@ -128,11 +126,12 @@ var BIDS = {
 
             var pathValues = values[0];
             var fileValues = values[1];
-            console.log(typeof(self.issues.push), 'inside loop');
 
             if (fileValues.sub !== null || fileValues.ses !== null){
+                // console.log('File: ', file,  '\n', 'Key: ', key, '\n', 'CN: ', cb);
               if (fileValues.sub !== pathValues.sub){
-                self.issues.push(new Issue({
+                  console.log(self.issues);
+                  self.issues.push(new Issue({
                     code: 57,
                     evidence: "File: " + file.relativePath + " is saved in incorrect subject directory as per sub-id in filename.",
                     file: file
@@ -140,14 +139,14 @@ var BIDS = {
               }
 
               if (fileValues.ses !== pathValues.ses){
-                self.issues.push(new Issue({
+                  mismatch_sub_ses = true;
+                  self.issues.push(new Issue({
                     code: 58,
                     evidence: "File: " + file.relativePath + " is saved in incorrect session directory as per ses-id in filename.",
                     file: file
                 }));
               }
             }
-
 
 
             // check for subject directory presence
@@ -374,6 +373,61 @@ var BIDS = {
     },
 
     /**
+     * subid and sesid mismatch test. Generates error if ses-id and sub-id are different for any file, Takes a file list and return issues
+     */
+    subIDsesIDmismatchtest: function (fileList, callback) {
+        var self = this;
+
+
+        var summary = {
+            sessions: [],
+            subjects: [],
+            tasks: [],
+            modalities: [],
+            totalFiles: Object.keys(fileList).length,
+            size: 0
+        };
+
+        // validate individual files
+        async.eachOfLimit(fileList, 200, function (file, key, cb) {
+            var path = utils.files.relativePath(file);
+            file.relativePath = path;
+            var values = utils.type.getPathValues(file.relativePath);
+
+            // checks if sub/ses-id in filename matches with ses/sub directory file is saved
+
+            var pathValues = values[0];
+            var fileValues = values[1];
+
+            if (fileValues.sub !== null || fileValues.ses !== null) {
+                // console.log('File: ', file,  '\n', 'Key: ', key, '\n', 'CN: ', cb);
+                if (fileValues.sub !== pathValues.sub) {
+                    console.log(self.issues);
+                    self.issues.push(new Issue({
+                        code: 57,
+                        evidence: "File: " + file.relativePath + " is saved in incorrect subject directory as per sub-id in filename.",
+                        file: file
+                    }));
+                }
+
+                if (fileValues.ses !== pathValues.ses) {
+                    mismatch_sub_ses = true;
+                    self.issues.push(new Issue({
+                        code: 58,
+                        evidence: "File: " + file.relativePath + " is saved in incorrect session directory as per ses-id in filename.",
+                        file: file
+                    }));
+                }
+            }
+        });
+        // return this.issues;
+    },
+
+
+
+
+
+            /**
      * Reset
      *
      * Resets the in object data back to original values.

@@ -1,8 +1,9 @@
 var assert = require('chai').assert;
 var utils   = require('../utils');
 var Test = require("mocha/lib/test");
-var validatorss = require('../validators');
-var Issue  = utils.issues.Issue;
+var BIDS = require('../validators/bids');
+// var Issue  = utils.issues.Issue;
+const fs = require('fs');
 
 var suiteAnat = describe('utils.type.isAnat', function(){
     before(function(done) {
@@ -268,8 +269,6 @@ describe('utils.type.getPathValues', function () {
              path: 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001//sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
              relativePath: 'ds001//sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz' }},
 
-        // var files = ['/sub-22/ses-1/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
-        // '/sub-22/ses-1/func/sub-23_ses-1_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-22/ses-1/func/sub-22_ses-2_task-rest_acq-prefrontal_physio.tsv.gz', '/sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz'];
         callback = function (issues, summary) {
             for (var i in issues) {
                 if (issues[i]['code'] === 57) {
@@ -281,12 +280,25 @@ describe('utils.type.getPathValues', function () {
             }
             assert(code57_seen);
             assert(code58_seen);
-            console.log(issues[i]['code'] === 58);
+            // console.log(issues[i]['code'] === 58);
         };
-        // assert(validatorss.bids.fullTest(files, callback));
-        var dir = 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001/';
-        // console.log(utils.files.readDir(dir),callback);({config: issues});
-        validatorss.BIDSS(files, callback);
-        console.log(issues);
+        // var output = BIDS.subIDsesIDmismatchtest(files, callback);
+        // fs.writeFileSync('output.txt', output);
+        console.log(assert.equal(BIDS.subIDsesIDmismatchtest(files, callback)));
+        // assert.equal(BIDS.subIDsesIDmismatchtest(files, callback));
+        // var dir = 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001/';
+        // issues = [];
+        // BIDS.fullTest(files, callback);
+        // console.log(issues);
+
+
         });
     });
+
+
+/*
+ 1) utils.type.getPathValues should return if sub and ses doesnt match:
+ AssertionError: Unspecified AssertionError
+ at Context.<anonymous> (tests/type.spec.js:284:9)
+
+ */
