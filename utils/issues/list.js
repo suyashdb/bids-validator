@@ -283,11 +283,36 @@ module.exports = {
         reason: 'As per section 164.514(C) of "The De-dentification Standard" under HIPPA guidelines, participants with age 89 or higher should be tagged as 89+. More information can be found at https://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/#standard'
     },
     57: {
+        key: 'DATASET_DESCRIPTION_JSON_MISSING',
+        severity: 'error',
+        reason: 'The compulsory file /dataset_description.json is missing. See Section 8.1 of the BIDS specification.'
+    },
+    58: {
+        key: 'TASK_NAME_CONTAIN_ILLEGAL_CHARACTER',
+        severity: 'error',
+        reason: 'Task Name contain an Illegal Character hyphen or underscore. Please edit the filename as per BIDS spec.'
+    },
+    59: {
+        key: 'ACQ_NAME_CONTAIN_ILLEGAL_CHARACTER',
+        severity: 'error',
+        reason: 'acq Name contain an Illegal Character hyphen or underscore. Please edit the filename as per BIDS spec.'
+    },
+    60: {
+        key: 'SFORM_AND_QFORM_IN_IMAGE_HEADER_ARE_ZERO',
+        severity: 'error',
+        reason: 'sform_code and qform_code in the image header are 0. The image/file will be considered invalid or assumed to be in LAS orientation.'
+    },
+    61: {
+        key: 'QUICK_VALIDATION_FAILED',
+        severity: 'error',
+        reason: 'Quick validation failed - the general folder structure does not resemble a BIDS dataset. Have you chosen the right folder (with "sub-*/" subfolders)? Check for structural/naming issues and presence of at least one subject.',
+    },
+    62: {
         key: 'sub-id in filename doesnt match directory',
         severity: 'warning',
         reason: 'sub-id in the filename doesn\'t match with the path of the file. File seems to be saved in incorrect subject directory.'
     },
-    58: {
+    63: {
         key: 'ses-id in filename doesnt match directory',
         severity: 'error',
         reason: 'ses-id in the filename doesn\'t match with the path of the file. File seems to be saved in incorrect session directory.'

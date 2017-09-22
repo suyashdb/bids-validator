@@ -247,9 +247,9 @@ describe('utils.type.getPathValues', function () {
 });
 
 describe('utils.type.getPathValues', function () {
-    var issues = [{code: 57}, {code: 58}];
-    var code57_seen = false;
-    var code58_seen = false;
+    var issues = [{code: 61}, {code: 62}];
+    var code61_seen = false;
+    var code62_seen = false;
     it('should return if sub and ses doesnt match', function () {
 
         var files = { '0':
@@ -269,36 +269,19 @@ describe('utils.type.getPathValues', function () {
              path: 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001//sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz',
              relativePath: 'ds001//sub-25/ses-2/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz' }},
 
-        callback = function (issues, summary) {
+        callback = function (issues) {
             for (var i in issues) {
-                if (issues[i]['code'] === 57) {
-                    code57_seen = true;
+                if (issues[i]['code'] === 61) {
+                    code61_seen = true;
                 }
-                else if (issues[i]['code'] === 58) {
-                    code58_seen = false;
+                else if (issues[i]['code'] === 62) {
+                    code62_seen = false;
                 }
             }
-            assert(code57_seen);
-            assert(code58_seen);
-            // console.log(issues[i]['code'] === 58);
+            assert(code61_seen);
+            assert(code62_seen);
         };
-        // var output = BIDS.subIDsesIDmismatchtest(files, callback);
-        // fs.writeFileSync('output.txt', output);
-        console.log(assert.equal(BIDS.subIDsesIDmismatchtest(files, callback)));
-        // assert.equal(BIDS.subIDsesIDmismatchtest(files, callback));
-        // var dir = 'tests/data/BIDS-examples-1.0.0-rc3u5/ds001/';
-        // issues = [];
-        // BIDS.fullTest(files, callback);
-        // console.log(issues);
-
+        assert.equal(BIDS.subIDsesIDmismatchtest(files, callback), true);
 
         });
     });
-
-
-/*
- 1) utils.type.getPathValues should return if sub and ses doesnt match:
- AssertionError: Unspecified AssertionError
- at Context.<anonymous> (tests/type.spec.js:284:9)
-
- */
