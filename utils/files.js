@@ -99,7 +99,7 @@ function getFiles (dir, files_, toNotTraverseDirList_){
     files_ = files_ || [];
     toNotTraverseDirList_ = toNotTraverseDirList_ || [];
     var files = fs.readdirSync(dir);
-    var files = files.filter(function(x){return toNotTraverseDirList_.indexOf(x)<0;}) // this will filter directories which are not to be traversed
+    files = files.filter(function(x){return toNotTraverseDirList_.indexOf(x)<0;}); // this will filter directories which are not to be traversed
     for (var i = 0; i < files.length; i++) {
         var name = dir + '/' + files[i];
         if (fs.lstatSync(name).isDirectory()) {
