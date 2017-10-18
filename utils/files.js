@@ -77,7 +77,8 @@ function readFile (file, callback) {
  */
 function readDir (dir, callback) {
     if (fs) {
-        var files = getFiles(dir);
+        var doNotTraverseDirList = ['derivatives', 'sourcedata']; //list of directories to be excluded from 
+        var files = getFiles(dir, [], doNotTraverseDirList);
         var filesObj = {};
         var str = dir.substr(dir.lastIndexOf('/') + 1) + '$';
         var subpath = dir.replace(new RegExp(str), '');
@@ -94,9 +95,11 @@ function readDir (dir, callback) {
     }
 }
 
-function getFiles (dir, files_){
+function getFiles (dir, files_, toNotTraverseDirList_){
     files_ = files_ || [];
+    toNotTraverseDirList_ = toNotTraverseDirList_ || [];
     var files = fs.readdirSync(dir);
+    var files = files.filter(function(x){return toNotTraverseDirList_.indexOf(x)<0;}) // this will filter directories which are not to be traversed
     for (var i = 0; i < files.length; i++) {
         var name = dir + '/' + files[i];
         if (fs.lstatSync(name).isDirectory()) {
@@ -278,7 +281,7 @@ function testFile (file, callback) {
 /**
  * Simulates some of the browser File API interface.
  * https://developer.mozilla.org/en-US/docs/Web/API/File
- * 
+ *
  * @param {string[]} parts - file contents as bytes
  * @param {string} filename - filename without path info
  * @param {Object} properties - unused Blob properties
@@ -306,7 +309,7 @@ function FileAPI() {
  * New File
  *
  * Creates an empty File object
- * 
+ *
  * @param {string} filename - the filename without path info
  */
 function newFile(filename) {
