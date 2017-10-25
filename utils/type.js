@@ -61,7 +61,7 @@ module.exports = {
      * Check if file is appropriate associated data.
      */
     isAssociatedData: function (path) {
-        var associatedData = new RegExp('^\\/(?:code|derivatives|sourcedata|stimuli|[.]git)\\/(?:.*)$');
+        var associatedData = new RegExp('^\\/(?:[.]git)\\/(?:.*)$');
         return associatedData.test(path);
     },
 
