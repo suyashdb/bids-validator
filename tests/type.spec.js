@@ -221,19 +221,6 @@ describe('utils.type.isAssociatedData', function () {
             assert.equal(utils.type.isAssociatedData(path), false);
         });
     });
-
-    // it('should return true for associated data directories and any files within', function () {
-    //     var goodFilenames = [
-    //         "/code/test-script.py",
-    //         "/derivatives/sub-01_QA.pdf",
-    //         "/sourcedata/sub-01_ses-01_bold.dcm",
-    //         "/stimuli/text.pdf"
-    //     ];
-    //
-    //     goodFilenames.forEach(function (path) {
-    //         assert(utils.type.isAssociatedData(path));
-    //     });
-    // });
 });
 
 describe('utils.type.getPathValues', function () {
