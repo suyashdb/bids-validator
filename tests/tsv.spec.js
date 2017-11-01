@@ -1,5 +1,6 @@
 var assert   = require('assert');
 var validate = require('../index');
+var tsv_checkphenotype = require('../validators/tsv');
 
 describe('TSV', function(){
 
@@ -130,8 +131,10 @@ describe('TSV', function(){
             totalFiles: 43,
             size: 11845 };
         var issues = [];
-        validate.TSV.checkphenotype(phenotypeParticipants, summary, issues, function(issues){
-            assert(issues.length === 0 && issues[0].code === 51);
+        console.log("outside:  ",phenotypeParticipants);
+        tsv_checkphenotype.checkphenotype(phenotypeParticipants, summary, issues, function(issues){
+            assert(issues.length === 1 && issues[0].code === 51);
+            console.log(phenotypeParticipants);
         });
     });
 
