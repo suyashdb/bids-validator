@@ -2,8 +2,6 @@
 
 var nifti = require('nifti-js');
 var Issue = require('./issues').Issue;
-var glob = require('glob');
-
 /**
  * If the current environment is server side
  * nodejs/iojs import fs.
@@ -78,9 +76,7 @@ function readFile (file, callback) {
  */
 function readDir (dir, callback) {
     if (fs) {
-        var glob_pattern = dir + "**/.**";
-        var hidden_genericIgnoreFilelist = glob(glob_pattern, function (er, files){});
-        var doNotTraverseDirList = ['derivatives', 'sourcedata', 'code', 'stimuli'].concat(hidden_genericIgnoreFilelist); //list of directories to be excluded from
+        var doNotTraverseDirList = ['derivatives', 'sourcedata', 'code', 'stimuli', '.git', '.gitignore']; //list of directories to be excluded from
         var files = getFiles(dir, [], doNotTraverseDirList);
         var filesObj = {};
         var str = dir.substr(dir.lastIndexOf('/') + 1) + '$';
