@@ -19,7 +19,6 @@ module.exports = {
     isBIDS: function (path) {
         return (
             this.isTopLevel(path) ||
-            this.isAssociatedData(path) ||
             this.isSessionLevel(path) ||
             this.isSubjectLevel(path) ||
             this.isAnat(path) ||
@@ -55,14 +54,6 @@ module.exports = {
 
         return (fixedTopLevelNames.indexOf(path) != -1 || funcTopRe.test(path) || dwiTopRe.test(path) ||
         anatTopRe.test(path) || multiDirFieldmapRe.test(path) || otherTopFiles.test(path));
-    },
-
-    /**
-     * Check if file is appropriate associated data.
-     */
-    isAssociatedData: function (path) {
-        var associatedData = new RegExp('^\\/(?:[.]git)\\/(?:.*)$');
-        return associatedData.test(path);
     },
 
     /**
@@ -229,6 +220,3 @@ function conditionalMatch (expression, path) {
         }
         return false;
 }
-
-
-

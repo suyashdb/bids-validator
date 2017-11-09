@@ -210,19 +210,6 @@ describe('utils.type.isPhenotypic', function () {
     });
 });
 
-describe('utils.type.isAssociatedData', function () {
-    it('should return false for unknown root directories', function () {
-        var badFilenames = [
-            "/images/picture.jpeg",
-            "/temporary/test.json"
-        ];
-
-        badFilenames.forEach(function (path) {
-            assert.equal(utils.type.isAssociatedData(path), false);
-        });
-    });
-});
-
 describe('utils.type.getPathValues', function () {
     it('should return the correct path values from a valid file path', function () {
         assert.equal(utils.type.getPathValues('/sub-22/ses-1/func/sub-22_ses-1_task-rest_acq-prefrontal_physio.tsv.gz').sub, 22);

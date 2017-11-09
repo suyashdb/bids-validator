@@ -213,14 +213,8 @@ BIDS = {
             if (path === '/dataset_description.json') {
                 hasDatasetDescription = true;
             }
-
-            // ignore associated data
-            if (utils.type.isAssociatedData(file.relativePath)) {
-                process.nextTick(cb);
-            }
-
             // validate path naming
-            else if (!utils.type.isBIDS(file.relativePath)) {
+            if (!utils.type.isBIDS(file.relativePath)) {
                 self.issues.push(new Issue({
                     file: file,
                     evidence: file.name,
@@ -359,7 +353,7 @@ BIDS = {
             }
 
             // collect sessions & subjects
-            if (!utils.type.isAssociatedData(file.relativePath) && utils.type.isBIDS(file.relativePath)) {
+            if (utils.type.isBIDS(file.relativePath)) {
                 var pathValues = utils.type.getPathValues(file.relativePath);
 
                 if (pathValues.sub && summary.subjects.indexOf(pathValues.sub) === -1) {
