@@ -98,15 +98,27 @@ function getFiles (dir, files_, toNotTraverseDirList_){
     files_ = files_ || [];
     toNotTraverseDirList_ = toNotTraverseDirList_ || [];
     var files = fs.readdirSync(dir);
-    files = files.filter(function(x){return toNotTraverseDirList_.indexOf(x)<0;}); // this will filter directories which are not to be traversed
-    for (var i = 0; i < files.length; i++) {
-        var name = dir + '/' + files[i];
+    var filesarr= []
+    files.forEach(function(file){
+        if(!(toNotTraverseDirList_.includes(file))){
+            // console.log(file);
+            filesarr.push(file);
+        };
+    })
+    // console.log("before filter: ", files)
+    // files = files.filter(function(x){
+    //     // console.log(x)
+    //     return toNotTraverseDirList_.indexOf(x)<0;}); // this will filter directories which are not to be traversed
+    // console.log("after filter: ", files)
+    for (var i = 0; i < filesarr.length; i++) {
+        var name = dir + '/' + filesarr[i];
         if (fs.lstatSync(name).isDirectory()) {
             getFiles(name, files_);
         } else {
             files_.push(name);
         }
     }
+    // console.log("files:  ", files, "NOt traverse list: ", toNotTraverseDirList_);
     return files_;
 }
 
