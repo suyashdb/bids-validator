@@ -98,13 +98,13 @@ function getFiles (dir, files_, toNotTraverseDirList_){
     files_ = files_ || [];
     toNotTraverseDirList_ = toNotTraverseDirList_ || [];
     var files = fs.readdirSync(dir);
-    var filesarr= []
-    files.forEach(function(file){
-        if(!(toNotTraverseDirList_.includes(file))){
+    var filesarr= [];
+    for(var f = 0; f< files.length; f++){
+        if(!(toNotTraverseDirList_.includes(files[f]))){
             // console.log(file);
-            filesarr.push(file);
-        };
-    })
+            filesarr.push(files[f]);
+        }
+    }
     // console.log("before filter: ", files)
     // files = files.filter(function(x){
     //     // console.log(x)
