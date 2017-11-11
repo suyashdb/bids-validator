@@ -75,9 +75,9 @@ function readFile (file, callback) {
  * object to the callback.
  */
 function readDir (dir, callback) {
+    var doNotTraverseDirList = ['derivatives', 'sourcedata', 'code', 'stimuli', '.git', '.gitignore']; //list of directories to be excluded from
+    var files = getFiles(dir, [], doNotTraverseDirList);
     if (fs) {
-        var doNotTraverseDirList = ['derivatives', 'sourcedata', 'code', 'stimuli', '.git', '.gitignore']; //list of directories to be excluded from
-        var files = getFiles(dir, [], doNotTraverseDirList);
         var filesObj = {};
         var str = dir.substr(dir.lastIndexOf('/') + 1) + '$';
         var subpath = dir.replace(new RegExp(str), '');
