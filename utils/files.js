@@ -3,12 +3,13 @@
 var nifti = require('nifti-js');
 var Issue = require('./issues').Issue;
 var fs = require('fs');
+var zlib = require('zlib');
 /**
  * If the current environment is server side
  * nodejs/iojs import fs.
  */
 if (typeof window === 'undefined') {
-    var zlib = require('zlib');
+    // var zlib = require('zlib');
 } else {
     var pako = require('pako');
 }
