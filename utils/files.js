@@ -95,7 +95,7 @@ function readDir (dir, callback) {
         }
         callback(filesObj);
         } else {
-        console.log(filesObj);
+        console.log("filesObj  ", filesObj, "dir :  ", dir);
         callback(dir);
     }
 }
