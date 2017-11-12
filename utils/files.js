@@ -82,6 +82,7 @@ function readDir (dir, callback) {
     var doNotTraverseDirList = ['derivatives', 'sourcedata', 'code', 'stimuli', '.git', '.gitignore']; //list of directories to be excluded from
     var files = getFiles(dir, [], doNotTraverseDirList);
     if (fs) {
+        // console.log(dir);
         var filesObj = {};
         var str = dir.substr(dir.lastIndexOf('/') + 1) + '$';
         var subpath = dir.replace(new RegExp(str), '');
@@ -93,7 +94,8 @@ function readDir (dir, callback) {
             };
         }
         callback(filesObj);
-    } else {
+        } else {
+        console.log(filesObj);
         callback(dir);
     }
 }
