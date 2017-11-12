@@ -13,8 +13,8 @@ if (typeof window === 'undefined') {
     var fs = require('fs');
 } else {
     var pako = require('pako');
-    var filesystem = require('level-filesystem');
-    var fs = filesystem(db);
+    // var filesystem = require('level-filesystem');
+    // var fs = filesystem(db);
 }
 
 // public API ---------------------------------------------------------------------
