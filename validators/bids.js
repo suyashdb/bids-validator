@@ -13,6 +13,7 @@ var session = require('./session');
 var headerFields = require('./headerFields');
 
 var BIDS;
+var nifti_fileList = [];
 BIDS = {
 
     options: {},
@@ -232,6 +233,7 @@ BIDS = {
             // capture niftis for later validation
             else if (file.name.endsWith('.nii') || file.name.endsWith('.nii.gz')) {
                 niftis.push(file);
+                nifti_fileList.push(file.relativePath);
 
                 // collect modality summary
                 var pathParts = path.split('_');
@@ -342,6 +344,7 @@ BIDS = {
                 process.nextTick(cb);
             }
 
+
             // collect file stats
             if (typeof window !== 'undefined') {
                 if (file.size) {
@@ -372,6 +375,8 @@ BIDS = {
 
         }, function () {
             async.eachOfLimit(niftis, 200, function (file, key, cb) {
+                // console.log("Nifti file: ", file.relativePath);
+                nifti_fileList.push(file.relativePath);
                 if (self.options.ignoreNiftiHeaders) {
                     NIFTI(null, file, jsonContentsDict, bContentsDict, fileList, events, function (issues) {
                         self.issues = self.issues.concat(issues);
@@ -421,6 +426,10 @@ BIDS = {
                     }));
                 }
 
+                // check if all niftis are as per BIDS spec
+
+                self.checkBIDSNifti(nifti_fileList);
+
                 if (phenotypeParticipants && phenotypeParticipants.length > 0) {
                     for (var j = 0; j < phenotypeParticipants.length; j++) {
                         var fileParticpants = phenotypeParticipants[j];
@@ -442,6 +451,33 @@ BIDS = {
             });
         });
     },
+    /**
+     *
+     */
+
+    checkBIDSNifti:function(niftifilelist){
+        var non_bids_complaintList = []
+        function check_bidsCompatibility(file) {
+            if(utils.type.isAnat(file) ||
+            utils.type.isDWI(file) ||
+            utils.type.isFieldMap(file) ||
+            utils.type.isFunc(file)){
+                return true;
+            } else {
+                non_bids_complaintList.push(file)
+            }
+        }
+
+        var areBIDSFiles = niftifilelist.every(check_bidsCompatibility);
+        if(!areBIDSFiles){
+            self.issues.push(new Issue({
+                code: 67,
+                evidence: "File/s are non BIDS complaint: " + non_bids_complaintList,
+            }));
+        }
+
+        console.log(areBIDSFiles);
+    },
 
     /**
      * subid and sesid mismatch test. Generates error if ses-id and sub-id are different for any file, Takes a file list and return issues
@@ -456,7 +492,6 @@ BIDS = {
          * found following keys for both path and file keys.
          * sub-
          * ses-
-         *
          *
          */
         function getPathandFileValues(path){

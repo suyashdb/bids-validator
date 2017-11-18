@@ -331,5 +331,10 @@ module.exports = {
         key: 'SLICETIMING_VALUES_GREATOR_THAN_REPETITION_TIME',
         severity: 'error',
         reason: '"SliceTiming" value/s contains invalid value as it is greator than RepetitionTime.  SliceTiming values should be in seconds not milliseconds (common mistake).'
+    },
+    67: {
+        key: 'NO_BIDS_COMPLAINT_FILES_FOUND_IN_DATASET',
+        severity: 'error',
+        reason: 'There are no nifti files as per BIDS Spec in any subject.'
     }
 };
