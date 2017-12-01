@@ -235,7 +235,7 @@ BIDS = {
                     evidence: file.name,
                     code: 1
                 }));
-                self.checkBIDSNifti(nifti_fileList);
+                // self.checkBIDSNifti(nifti_fileList);
                 process.nextTick(cb);
             }
 
@@ -483,7 +483,7 @@ BIDS = {
         if(!areBIDSFiles || (non_bids_complaintList.length > 0)){
             self.issues.push(new Issue({
                 code: 67,
-                evidence: "File/s are non BIDS complaint: " + non_bids_complaintList,
+                evidence: "File/s are non BIDS complaint: " + non_bids_complaintList
             }));
 
         }

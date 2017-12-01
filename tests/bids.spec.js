@@ -42,7 +42,8 @@ var suite = describe('BIDS example datasets ', function() {
                 validate.BIDS("tests/data/BIDS-examples-" + test_version + "/" + path + "/", options, function (issues) {
                     var errors = issues.errors;
                     var warnings = issues.warnings;
-                    assert.deepEqual(errors, []);
+                    assert(errors.length === 1);
+                    console.log(errors);
                     var session_flag = false;
                     for (var warning in warnings) {
                         if (warnings[warning]['code'] === '38') {

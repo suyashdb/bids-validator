@@ -275,7 +275,7 @@ module.exports = {
     55: {
         key: 'JSON_SCHEMA_VALIDATION_ERROR',
         severity: 'error',
-        reason: 'JSON file is not formatted according the the schema.'
+        reason: 'JSON file is not formatted according the schema.'
     },
     56: {
         key: 'Participants age 89 or higher',
@@ -335,6 +335,6 @@ module.exports = {
     67: {
         key: 'NO_BIDS_COMPLAINT_FILES_FOUND_IN_DATASET',
         severity: 'error',
-        reason: 'There are no nifti files as per BIDS Spec in any subject.'
+        reason: 'There are no nifti files as per BIDS Spec in any subject.',
     }
 };
