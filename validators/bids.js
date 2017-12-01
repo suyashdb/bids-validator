@@ -206,7 +206,7 @@ BIDS = {
                 nifti_fileList.push(file.relativePath);
                 process.nextTick(cb);
             }
-        })
+        });
 
 
         // validate individual files
@@ -241,7 +241,6 @@ BIDS = {
 
             // capture niftis for later validation
             else if (file.name.endsWith('.nii') || file.name.endsWith('.nii.gz')) {
-                console.log("outside isBIDS check")
                 niftis.push(file);
                 nifti_fileList.push(file.relativePath);
 
@@ -467,7 +466,7 @@ BIDS = {
 
     checkBIDSNifti:function(niftifilelist){
         var self = this;
-        var non_bids_complaintList = []
+        var non_bids_complaintList = [];
         function check_bidsCompatibility(file) {
             if(utils.type.isAnat(file) ||
             utils.type.isDWI(file) ||
