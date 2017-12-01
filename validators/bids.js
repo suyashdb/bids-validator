@@ -473,7 +473,6 @@ BIDS = {
             utils.type.isDWI(file) ||
             utils.type.isFieldMap(file) ||
             utils.type.isFunc(file)){
-                // console.log(utils.type.isFunc(file), "File:", file);
                 return true;
             } else {
                 non_bids_complaintList.push(file);
@@ -489,9 +488,6 @@ BIDS = {
             }));
 
         }
-        // console.log(non_bids_complaintList, niftifilelist);
-
-        // console.log(areBIDSFiles);
     },
 
     /**
