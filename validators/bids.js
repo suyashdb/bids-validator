@@ -200,6 +200,14 @@ BIDS = {
             }
         });
 
+        // collecting all nifti files into an array
+        async.eachOfLimit(fileList, 200, function (file, key, cb) {
+            if (file.name.endsWith('.nii') || file.name.endsWith('.nii.gz')) {
+                nifti_fileList.push(file.relativePath);
+                process.nextTick(cb);
+            }
+        })
+
 
         // validate individual files
         async.eachOfLimit(fileList, 200, function (file, key, cb) {
@@ -227,11 +235,13 @@ BIDS = {
                     evidence: file.name,
                     code: 1
                 }));
+                self.checkBIDSNifti(nifti_fileList);
                 process.nextTick(cb);
             }
 
             // capture niftis for later validation
             else if (file.name.endsWith('.nii') || file.name.endsWith('.nii.gz')) {
+                console.log("outside isBIDS check")
                 niftis.push(file);
                 nifti_fileList.push(file.relativePath);
 
@@ -456,27 +466,32 @@ BIDS = {
      */
 
     checkBIDSNifti:function(niftifilelist){
+        var self = this;
         var non_bids_complaintList = []
         function check_bidsCompatibility(file) {
             if(utils.type.isAnat(file) ||
             utils.type.isDWI(file) ||
             utils.type.isFieldMap(file) ||
             utils.type.isFunc(file)){
+                // console.log(utils.type.isFunc(file), "File:", file);
                 return true;
             } else {
-                non_bids_complaintList.push(file)
+                non_bids_complaintList.push(file);
             }
         }
 
         var areBIDSFiles = niftifilelist.every(check_bidsCompatibility);
-        if(!areBIDSFiles){
+
+        if(!areBIDSFiles || (non_bids_complaintList.length > 0)){
             self.issues.push(new Issue({
                 code: 67,
                 evidence: "File/s are non BIDS complaint: " + non_bids_complaintList,
             }));
-        }
 
-        console.log(areBIDSFiles);
+        }
+        // console.log(non_bids_complaintList, niftifilelist);
+
+        // console.log(areBIDSFiles);
     },
 
     /**
