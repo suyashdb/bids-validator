@@ -235,7 +235,6 @@ BIDS = {
                     evidence: file.name,
                     code: 1
                 }));
-                // self.checkBIDSNifti(nifti_fileList);
                 process.nextTick(cb);
             }
 
@@ -384,7 +383,7 @@ BIDS = {
 
         }, function () {
             async.eachOfLimit(niftis, 200, function (file, key, cb) {
-                // console.log("Nifti file: ", file.relativePath);
+                
                 nifti_fileList.push(file.relativePath);
                 if (self.options.ignoreNiftiHeaders) {
                     NIFTI(null, file, jsonContentsDict, bContentsDict, fileList, events, function (issues) {

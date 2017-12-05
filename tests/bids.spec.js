@@ -43,7 +43,6 @@ var suite = describe('BIDS example datasets ', function() {
                     var errors = issues.errors;
                     var warnings = issues.warnings;
                     assert(errors.length === 1);
-                    console.log(errors);
                     var session_flag = false;
                     for (var warning in warnings) {
                         if (warnings[warning]['code'] === '38') {
