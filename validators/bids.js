@@ -13,7 +13,18 @@ var session = require('./session');
 var headerFields = require('./headerFields');
 
 var BIDS;
-var nifti_fileList = [];
+var sub_fileList = [];
+//function to groupby files into subject wise filelist
+var groupBy = function(array, cp){
+    return array.reduce((groups, next) => { const name = cp(next);
+    if (name !== undefined) {
+        const group = groups.get(name);
+        if (group) group.push(next);
+        else groups.set(name, [next]);
+    }
+    return groups;
+}, new Map());
+}
 BIDS = {
 
     options: {},
@@ -200,64 +211,13 @@ BIDS = {
             }
         });
 
-        /**
-        method 2
-        */
-        // function groupBy(array, cp){
-        //     return array.reduce((groups, next) => { const name = cp(next);
-        //     if (name !== undefined) {
-        //         const group = groups.get(name);
-        //         if (group) group.push(next);
-        //         else groups.set(name, [next]);
-        //     }
-        //     return groups;
-        // }, new Map());
-        //
-        // }
-        //
-        // async.eachOfLimit(fileList, 200, function (file, key, cb) {
-        //     if (file.name) {
-        //         nifti_fileList.push(file.relativePath);
-        //         process.nextTick(cb);
-        //     }
-        // });
-        // const groups = groupBy(nifti_fileList, path => {const match = path.match(/^\/(sub-\w+)\//);
-        //     if (match) return match[1];
-        // });
-        // console.log(len(groups))
-
-
-        // collecting all nifti files into an array
-        // var subFilelist = [];
-        // var previous_sub = null;
-        // var file_no = 0;
-        //
-        // async.eachOfLimit(fileList, 200, function (file, key, cb) {
-        //     var testfile = file.relativePath;
-        //     // console.log(testfile);
-        //     var sub_capture_re = /sub-[a-zA-Z0-9]*/gi;
-        //     var current_sub = testfile.match(sub_capture_re);
-        //     if (current_sub) {
-        //         // console.log(testfile);
-        //         if((file_no === 0)){
-        //             subFilelist.push(testfile);
-        //             file_no = file_no + 1;
-        //             previous_sub = current_sub[0];
-        //         }
-        //         // console.log("Testfile:  ", testfile, "Condition  ", (previous_sub === current_sub[0]), "previous_sub -", previous_sub, "   current_sub-", current_sub[0], "file_no - ", file_no)
-        //         if ((current_sub[0] === previous_sub) && (file_no > 0)){
-        //             previous_sub = current_sub[0];
-        //             subFilelist.push(file.relativePath);
-        //         } else {
-        //             nifti_fileList.push(subFilelist);
-        //             subFilelist = [];
-        //             file_no =0;
-        //         }
-        //     }
-        //     process.nextTick(cb);
-        // });
-        // console.log(nifti_fileList);
-
+        // geting a array of files in the dataset from files object
+        async.eachOfLimit(fileList, 200, function (file, key, cb) {
+            if (file.name) {
+                sub_fileList.push(file.relativePath);
+                process.nextTick(cb);
+            }
+        });
 
         // validate individual files
         async.eachOfLimit(fileList, 200, function (file, key, cb) {
@@ -479,14 +439,7 @@ BIDS = {
                         code: 53
                     }));
                 }
-
-                // check if all niftis are as per BIDS spec
-
-                self.checkBIDSNifti(fileList, self.issues);
-                // for (const [name, files] of groups.entries()) {
-                //     // console.log(self.issues);
-                //     self.checkBIDSNifti(fileList, self.issues);
-                // }
+                self.checkBIDSNifti(sub_fileList, self.issues);
 
                 if (phenotypeParticipants && phenotypeParticipants.length > 0) {
                     for (var j = 0; j < phenotypeParticipants.length; j++) {
@@ -514,28 +467,8 @@ BIDS = {
      * takes filelist and issues object
      * Returns issues with sub-id which doesnt have even a single BIDS compatible file
      */
-
     checkBIDSNifti:function(fileList, issues){
-        //groupBy just sorts the fileist array into subject wise list of files
-        function groupBy(array, cp){
-            return array.reduce((groups, next) => { const name = cp(next);
-            if (name !== undefined) {
-                const group = groups.get(name);
-                if (group) group.push(next);
-                else groups.set(name, [next]);
-            }
-            return groups;
-        }, new Map());
-        }
-
-        async.eachOfLimit(fileList, 200, function (file, key, cb) {
-            if (file.name) {
-                nifti_fileList.push(file.relativePath);
-                process.nextTick(cb);
-            }
-        });
-
-        const groups = groupBy(nifti_fileList, path => {const match = path.match(/^\/(sub-\w+)\//);
+        const groups = groupBy(sub_fileList, path => {const match = path.match(/^\/(sub-\w+)\//);
             if (match) return match[1];
         });
         var non_bids_complaintList = [];
