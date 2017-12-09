@@ -25,6 +25,19 @@ var groupBy = function(array, cp){
     return groups;
 }, new Map());
 }
+
+var non_bids_complaintList = [];
+//actual check for bids compatibilty run on subjectwise FileList
+var check_bidsCompatibility = function(file) {
+    if(utils.type.isAnat(file) ||
+    utils.type.isDWI(file) ||
+    utils.type.isFieldMap(file) ||
+    utils.type.isFunc(file)){
+        return true;
+    } else {
+        non_bids_complaintList.push(file);
+    }
+}
 BIDS = {
 
     options: {},
@@ -471,20 +484,6 @@ BIDS = {
         const groups = groupBy(sub_fileList, path => {const match = path.match(/^\/(sub-\w+)\//);
             if (match) return match[1];
         });
-        var non_bids_complaintList = [];
-
-        //actual check for bids compatibilty run on each file from filelist
-        function check_bidsCompatibility(file) {
-            if(utils.type.isAnat(file) ||
-            utils.type.isDWI(file) ||
-            utils.type.isFieldMap(file) ||
-            utils.type.isFunc(file)){
-                return true;
-            } else {
-                non_bids_complaintList.push(file);
-            }
-        }
-
         for (const [name, files] of groups.entries()) {
             var areBIDSFiles = files.every(check_bidsCompatibility);
             if(!areBIDSFiles || (non_bids_complaintList.length > 0)){
