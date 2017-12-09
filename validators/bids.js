@@ -203,26 +203,27 @@ BIDS = {
         /**
         method 2
         */
-        function groupBy(array, cp) {
-            var tmp_arr =array.reduce((groups, next) => { const name = cp(next);
-            if (name !== undefined) {
-                const group = groups.get(name);
-                if (group) group.push(next);
-                else groups.set(name, [next]);
-            }
-            return groups;
-        }, new Map());
-        return tmp_arr;
-        }
-        async.eachOfLimit(fileList, 200, function (file, key, cb) {
-            if (file.name) {
-                nifti_fileList.push(file.relativePath);
-                process.nextTick(cb);
-            }
-        });
-        const groups = groupBy(nifti_fileList, path => {const match = path.match(/^\/(sub-\w+)\//);
-            if (match) return match[1];
-        });
+        // function groupBy(array, cp){
+        //     return array.reduce((groups, next) => { const name = cp(next);
+        //     if (name !== undefined) {
+        //         const group = groups.get(name);
+        //         if (group) group.push(next);
+        //         else groups.set(name, [next]);
+        //     }
+        //     return groups;
+        // }, new Map());
+        //
+        // }
+        //
+        // async.eachOfLimit(fileList, 200, function (file, key, cb) {
+        //     if (file.name) {
+        //         nifti_fileList.push(file.relativePath);
+        //         process.nextTick(cb);
+        //     }
+        // });
+        // const groups = groupBy(nifti_fileList, path => {const match = path.match(/^\/(sub-\w+)\//);
+        //     if (match) return match[1];
+        // });
         // console.log(len(groups))
 
 
@@ -481,11 +482,11 @@ BIDS = {
 
                 // check if all niftis are as per BIDS spec
 
-                // self.checkBIDSNifti(nifti_fileList);
-                for (const [name, files] of groups.entries()) {
-                    // console.log(self.issues);
-                    self.checkBIDSNifti(name, files, self.issues);
-                }
+                self.checkBIDSNifti(fileList, self.issues);
+                // for (const [name, files] of groups.entries()) {
+                //     // console.log(self.issues);
+                //     self.checkBIDSNifti(fileList, self.issues);
+                // }
 
                 if (phenotypeParticipants && phenotypeParticipants.length > 0) {
                     for (var j = 0; j < phenotypeParticipants.length; j++) {
@@ -508,12 +509,35 @@ BIDS = {
             });
         });
     },
+
     /**
      *
      */
 
-    checkBIDSNifti:function(name, niftifilelist, issues){
-        var self = this;
+    checkBIDSNifti:function(fileList, issues){
+        function groupBy(array, cp){
+            return array.reduce((groups, next) => { const name = cp(next);
+            if (name !== undefined) {
+                const group = groups.get(name);
+                if (group) group.push(next);
+                else groups.set(name, [next]);
+            }
+            return groups;
+        }, new Map());
+        }
+
+        async.eachOfLimit(fileList, 200, function (file, key, cb) {
+            if (file.name) {
+                nifti_fileList.push(file.relativePath);
+                process.nextTick(cb);
+            }
+        });
+
+        const groups = groupBy(nifti_fileList, path => {const match = path.match(/^\/(sub-\w+)\//);
+            if (match) return match[1];
+        });
+
+        // var self = this;
         var non_bids_complaintList = [];
         function check_bidsCompatibility(file) {
             // console.log(file, "  inside the checking function")
@@ -526,16 +550,22 @@ BIDS = {
                 non_bids_complaintList.push(file);
             }
         }
-        var areBIDSFiles = niftifilelist.every(check_bidsCompatibility);
+        // var areBIDSFiles = niftifilelist.every(check_bidsCompatibility);
+        for (const [name, files] of groups.entries()) {
+            // console.log(self.issues);
+            var areBIDSFiles = files.every(check_bidsCompatibility);
+            // checkBIDSNifti(fileList, self.issues);
+            if(!areBIDSFiles || (non_bids_complaintList.length > 0)){
+                issues.push(new Issue({
+                    code: 67,
+                    file: {'relativePath': name},     //adapted fileObject taken by issues to report sub path
+                    evidence: "File/s from " + name +" is/are non BIDS complaint."
+                }));
 
-        if(!areBIDSFiles || (non_bids_complaintList.length > 0)){
-            issues.push(new Issue({
-                code: 67,
-                file: {'relativePath': name},     //adapted fileObject taken by issues to report sub path
-                evidence: "File/s from " + name +" is/are non BIDS complaint: " + non_bids_complaintList
-            }));
-
+            }
         }
+
+
     },
 
     /**
