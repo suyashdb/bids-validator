@@ -26,18 +26,17 @@ var groupBy = function(array, cp){
 }, new Map());
 }
 
-var non_bids_complaintList = [];
-//actual check for bids compatibilty run on subjectwise FileList
-var check_bidsCompatibility = function(file) {
-    if(utils.type.isAnat(file) ||
-    utils.type.isDWI(file) ||
-    utils.type.isFieldMap(file) ||
-    utils.type.isFunc(file)){
-        return true;
-    } else {
-        non_bids_complaintList.push(file);
-    }
-}
+// return differene between array
+
+var difference = function (a1, a2) {
+    var a2Set = new Set(a2);
+    return a1.filter(function(x) { return !a2Set.has(x); });
+};
+
+var symmetricDifference = function (a1, a2) {
+    return difference(a1, a2).concat(difference(a2, a1));
+};
+
 BIDS = {
 
     options: {},
@@ -452,7 +451,7 @@ BIDS = {
                         code: 53
                     }));
                 }
-                self.checkBIDSNifti(sub_fileList, self.issues);
+                self.checkBIDSNifti(sub_fileList, self.issues, summary.subjects);
 
                 if (phenotypeParticipants && phenotypeParticipants.length > 0) {
                     for (var j = 0; j < phenotypeParticipants.length; j++) {
@@ -480,19 +479,24 @@ BIDS = {
      * takes filelist and issues object
      * Returns issues with sub-id which doesnt have even a single BIDS compatible file
      */
-    checkBIDSNifti:function(fileList, issues){
+    checkBIDSNifti:function(fileList, issues, summary){
+
         const groups = groupBy(sub_fileList, path => {const match = path.match(/^\/(sub-\w+)\//);
             if (match) return match[1];
         });
-        for (const [name, files] of groups.entries()) {
-            var areBIDSFiles = files.every(check_bidsCompatibility);
-            if(!areBIDSFiles || (non_bids_complaintList.length > 0)){
-                issues.push(new Issue({
-                    code: 67,
-                    file: {'relativePath': name},     //adapted fileObject taken by issues to report sub path
-                    evidence: "File/s from " + name +" is/are non BIDS complaint."
-                }));
-            }
+        var actual_subjects = []
+        for (const [name] of groups.entries()) {
+            actual_subjects.push(name);
+        }
+        summary[0] = 'sub-' + summary;
+        var diff = symmetricDifference(summary, actual_subjects);
+
+        if (diff.length !== 0) {
+            issues.push(new Issue({
+                code: 67,
+                file: {'relativePath': diff},     //adapted fileObject taken by issues to report sub path
+                evidence: "File/s from above subjects are non BIDS complaint."
+            }));
         }
     },
 
