@@ -492,7 +492,6 @@ BIDS = {
                     file: {'relativePath': name},     //adapted fileObject taken by issues to report sub path
                     evidence: "File/s from " + name +" is/are non BIDS complaint."
                 }));
-
             }
         }
     },
