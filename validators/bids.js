@@ -511,10 +511,12 @@ BIDS = {
     },
 
     /**
-     *
+     * takes filelist and issues object
+     * Returns issues with sub-id which doesnt have even a single BIDS compatible file
      */
 
     checkBIDSNifti:function(fileList, issues){
+        //groupBy just sorts the fileist array into subject wise list of files
         function groupBy(array, cp){
             return array.reduce((groups, next) => { const name = cp(next);
             if (name !== undefined) {
@@ -536,11 +538,10 @@ BIDS = {
         const groups = groupBy(nifti_fileList, path => {const match = path.match(/^\/(sub-\w+)\//);
             if (match) return match[1];
         });
-
-        // var self = this;
         var non_bids_complaintList = [];
+
+        //actual check for bids compatibilty run on each file from filelist
         function check_bidsCompatibility(file) {
-            // console.log(file, "  inside the checking function")
             if(utils.type.isAnat(file) ||
             utils.type.isDWI(file) ||
             utils.type.isFieldMap(file) ||
@@ -550,11 +551,9 @@ BIDS = {
                 non_bids_complaintList.push(file);
             }
         }
-        // var areBIDSFiles = niftifilelist.every(check_bidsCompatibility);
+
         for (const [name, files] of groups.entries()) {
-            // console.log(self.issues);
             var areBIDSFiles = files.every(check_bidsCompatibility);
-            // checkBIDSNifti(fileList, self.issues);
             if(!areBIDSFiles || (non_bids_complaintList.length > 0)){
                 issues.push(new Issue({
                     code: 67,
@@ -564,8 +563,6 @@ BIDS = {
 
             }
         }
-
-
     },
 
     /**
