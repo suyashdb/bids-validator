@@ -529,7 +529,7 @@ BIDS = {
 
             //capture session and subject id from filename to find if files are in
             // correct sub/ses directory
-            var filename = path.replace(/^.*[\\\/]/, '');
+            var filename = path.replace(/^.*[\\/]/, '');
 
             // capture sub from file name
             unmat = (/^sub-([a-zA-Z0-9]+)/).exec(filename);
