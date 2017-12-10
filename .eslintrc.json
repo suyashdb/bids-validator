@@ -8,9 +8,11 @@
         "Uint8Array": false,
         "describe": false,
         "before": false,
-        "it": false
+        "it": false,
+        "es6": true
     },
     "extends": "eslint:recommended",
+    "parserOptions": { "ecmaVersion": 6 },
     "rules": {
         "no-console": [
             "error",

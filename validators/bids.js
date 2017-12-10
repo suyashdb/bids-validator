@@ -24,7 +24,7 @@ var groupBy = function(array, cp){
     }
     return groups;
 }, new Map());
-}
+};
 
 // return differene between array
 
@@ -484,7 +484,7 @@ BIDS = {
         const groups = groupBy(sub_fileList, path => {const match = path.match(/^\/(sub-\w+)\//);
             if (match) return match[1];
         });
-        var actual_subjects = []
+        var actual_subjects = [];
         for (const [name] of groups.entries()) {
             actual_subjects.push(name);
         }
