@@ -74,7 +74,7 @@ var suite = describe('BIDS example datasets ', function() {
             assert.deepEqual(summary.modalities, ['T1w', 'inplaneT2', 'bold']);
             assert(summary.totalFiles === 133);
             assert(summary.size === 803546);
-            assert.deepEqual(errors, []);
+            assert(errors.length === 1);
             assert(warnings.length === 1 && warnings[0].code === '13');
             isdone();
         });
