@@ -1,6 +1,7 @@
 var async = require('async');
 var utils = require('../utils');
 var Issue = utils.issues.Issue;
+var listsub = require('../utils/heirarchy_suggestfiles');
 
 /**
  * NIFTI
@@ -18,6 +19,9 @@ module.exports = function NIFTI (header, file, jsonContentsDict, bContentsDict, 
     var mergedDictionary  = generateMergedSidecarDict(potentialSidecars, jsonContentsDict);
     var sidecarMessage    = "It can be included one of the following locations: " + potentialSidecars.join(", ");
     var eventsMessage     = "It can be included one of the following locations: " + potentialEvents.join(", ");
+
+    console.log(listsub(jsonContentsDict, path));
+    // console.log(jsonContentsDict);
 
     if (path.includes('_dwi.nii')) {
         var potentialBvecs = potentialLocations(path.replace(".gz", "").replace(".nii", ".bvec"));

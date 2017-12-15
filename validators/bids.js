@@ -31,6 +31,7 @@ BIDS = {
      */
     start: function (dir, options, callback) {
         var self = BIDS;
+
         utils.options.parse(options, function (issues, options) {
             if (issues && issues.length > 0) {
                 // option parsing issues
